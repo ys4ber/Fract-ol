@@ -6,7 +6,7 @@
 /*   By: ysaber <ysaber@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:46:28 by ysaber            #+#    #+#             */
-/*   Updated: 2024/01/04 21:04:06 by ysaber           ###   ########.fr       */
+/*   Updated: 2024/01/07 11:32:54 by ysaber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	create_trgb(int t, int r, int g, int b)
 
 int	close_program(t_data *img)
 {
+	mlx_destroy_image(img->mlx, img->img);
 	mlx_destroy_window(img->mlx, img->win);
 	exit(0);
-	return (0);
 }
 
 static double	help_atod(char *str, double res, int *dec, double *fr)

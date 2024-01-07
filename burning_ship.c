@@ -6,7 +6,7 @@
 /*   By: ysaber <ysaber@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:46:03 by ysaber            #+#    #+#             */
-/*   Updated: 2024/01/04 21:02:30 by ysaber           ###   ########.fr       */
+/*   Updated: 2024/01/05 14:05:27 by ysaber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,10 @@ void	burning_ship(t_data *img, int x, int y)
 		i++;
 	}
 	if (i < MAX_ITER)
-		color = create_trgb(0, 255 * i / MAX_ITER, 255 * i / MAX_ITER, 255 * i
-				/ MAX_ITER);
+		color = create_trgb(32, 255 * i / MAX_ITER, 25, 2);
 	else
 		color = create_trgb(0, 0, 0, 0);
-	my_mlx_pixel_put(img, x, y, color);
+	my_mlx_pixel_put(img, x, y, color * i);
 }
 
 void	draw_burning_ship(t_data *img)
@@ -83,18 +82,14 @@ int	deal_key_b(int key, t_data *img)
 {
 	if (key == 53)
 		exit(0);
-	if (key == 69)
-		img->zoom *= 1.1;
-	if (key == 78)
-		img->zoom /= 1.1;
 	if (key == 123)
-		img->offset_x -= 0.1 / img->zoom;
+		img->offset_x -= 0.1 * img->zoom;
 	if (key == 124)
-		img->offset_x += 0.1 / img->zoom;
+		img->offset_x += 0.1 * img->zoom;
 	if (key == 125)
-		img->offset_y += 0.1 / img->zoom;
+		img->offset_y += 0.1 * img->zoom;
 	if (key == 126)
-		img->offset_y -= 0.1 / img->zoom;
+		img->offset_y -= 0.1 * img->zoom;
 	mlx_clear_window(img->mlx, img->win);
 	draw_burning_ship(img);
 	return (0);
@@ -103,6 +98,8 @@ int	deal_key_b(int key, t_data *img)
 void	ft_burning_ship(t_data *img)
 {
 	img->mlx = mlx_init();
+	if (!img->mlx)
+		free_all(img);
 	img->win = mlx_new_window(img->mlx, WIDTH, HEIGHT, "burning ship");
 	img->img = mlx_new_image(img->mlx, WIDTH, HEIGHT);
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->len, &img->end);
@@ -110,9 +107,9 @@ void	ft_burning_ship(t_data *img)
 	img->offset_x = 0;
 	img->offset_y = 0;
 	draw_burning_ship(img);
-	mlx_hook(img->win, 2, 1L << 0, deal_key_b, img);
-	mlx_hook(img->win, 4, 1L << 0, mouse_hook_b, img);
-	mlx_hook(img->win, 17, 1L << 0, close_program, img);
+	mlx_hook(img->win, 2, 0, deal_key_b, img);
+	mlx_hook(img->win, 4, 0, mouse_hook_b, img);
+	mlx_hook(img->win, 17, 0, close_program, img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
 	mlx_loop(img->mlx);
 }

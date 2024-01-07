@@ -6,7 +6,7 @@
 /*   By: ysaber <ysaber@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:46:10 by ysaber            #+#    #+#             */
-/*   Updated: 2024/01/04 21:05:35 by ysaber           ###   ########.fr       */
+/*   Updated: 2024/01/06 17:58:14 by ysaber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,10 @@ void	mandelbrot(t_data *img, int x, int y)
 		i++;
 	}
 	if (i < MAX_ITER)
-		color = create_trgb(0, 255 * i / MAX_ITER, 255 * i / MAX_ITER, 255 * i
-				/ MAX_ITER);
+		color = create_trgb(3, 55, 1, 21);
 	else
-		color = create_trgb(2, 3, 0, 32);
-	my_mlx_pixel_put(img, x, y, color);
+		color = create_trgb(0, 0, 0, 0);
+	my_mlx_pixel_put(img, x, y, color * i);
 }
 
 void	draw_mandelbrot(t_data *img)
@@ -82,19 +81,17 @@ int	mouse_hook_m(int button, int x, int y, t_data *img)
 int	deal_key_m(int key, t_data *img)
 {
 	if (key == 53)
+	{
 		exit(0);
-	if (key == 69)
-		img->zoom *= 1.1;
-	if (key == 78)
-		img->zoom /= 1.1;
+	}
 	if (key == 123)
-		img->offset_x -= 0.1 / img->zoom;
+		img->offset_x -= 0.1 * img->zoom;
 	if (key == 124)
-		img->offset_x += 0.1 / img->zoom;
+		img->offset_x += 0.1 * img->zoom;
 	if (key == 125)
-		img->offset_y += 0.1 / img->zoom;
+		img->offset_y += 0.1 * img->zoom;
 	if (key == 126)
-		img->offset_y -= 0.1 / img->zoom;
+		img->offset_y -= 0.1 * img->zoom;
 	mlx_clear_window(img->mlx, img->win);
 	draw_mandelbrot(img);
 	return (0);
@@ -103,15 +100,17 @@ int	deal_key_m(int key, t_data *img)
 void	ft_mandelbrot(t_data *img)
 {
 	img->mlx = mlx_init();
+	if (!img->mlx)
+		free_all(img);
 	img->win = mlx_new_window(img->mlx, WIDTH, HEIGHT, "Mandelbrot");
 	img->img = mlx_new_image(img->mlx, WIDTH, HEIGHT);
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->len, &img->end);
 	img->zoom = 1;
 	img->offset_x = 0;
 	img->offset_y = 0;
-	mlx_hook(img->win, 2, 1L << 0, deal_key_m, img);
-	mlx_hook(img->win, 4, 1L << 2, mouse_hook_m, img);
-	mlx_hook(img->win, 17, 1L << 17, close_program, img);
+	mlx_hook(img->win, 2, 0, deal_key_m, img);
+	mlx_hook(img->win, 4, 0, mouse_hook_m, img);
+	mlx_hook(img->win, 17, 0, close_program, img);
 	draw_mandelbrot(img);
 	mlx_loop(img->mlx);
 }

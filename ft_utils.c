@@ -6,7 +6,7 @@
 /*   By: ysaber <ysaber@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:46:25 by ysaber            #+#    #+#             */
-/*   Updated: 2024/01/04 21:03:04 by ysaber           ###   ########.fr       */
+/*   Updated: 2024/01/07 11:42:59 by ysaber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,36 @@ double	ft_abs(double x)
 	if (x < 0)
 		return (-x);
 	return (x);
+}
+
+void free_all(t_data *img)
+{
+	free(img->mlx);
+	exit(0);
+}
+
+int check_arg(const char *str)
+{
+    int i;
+    int dotCount;
+    int digitCount;
+
+	i = 0;
+	dotCount = 0;
+	digitCount = 0;
+    while (str[i] == ' ')
+        i++;
+    if (str[i] == '-' || str[i] == '+')
+        i++;
+    while (str[i] != '\0')
+	{
+        if (str[i] >= '0' && str[i] <= '9')
+            digitCount++;
+		else if (str[i] == '.')
+            dotCount++;
+		 else 
+            return 0;
+        i++;
+    }
+    return (digitCount > 0 && dotCount <= 1);
 }

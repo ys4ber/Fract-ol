@@ -6,7 +6,7 @@
 /*   By: ysaber <ysaber@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:46:20 by ysaber            #+#    #+#             */
-/*   Updated: 2024/01/04 20:59:39 by ysaber           ###   ########.fr       */
+/*   Updated: 2024/01/07 11:42:54 by ysaber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 # define WIDTH 1000
 # define HEIGHT 900
@@ -79,5 +80,7 @@ double		ft_atod(char *str);
 void		ft_putstr(char *str);
 double		ft_abs(double x);
 int			ft_strcmp(const char *s1, const char *s2);
+void 		free_all(t_data *img);
+int 		check_arg(const char *str);
 
 #endif

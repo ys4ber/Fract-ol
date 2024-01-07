@@ -6,7 +6,7 @@
 /*   By: ysaber <ysaber@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:46:37 by ysaber            #+#    #+#             */
-/*   Updated: 2024/01/04 21:05:07 by ysaber           ###   ########.fr       */
+/*   Updated: 2024/01/05 14:05:00 by ysaber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	julia(t_data *img, int x, int y, char **av)
 		z.im = tmp.im;
 		i++;
 	}
-	color = create_trgb(0, 255 * i / MAX_ITER, i / MAX_ITER, i / MAX_ITER);
-	my_mlx_pixel_put(img, x, y, color);
+	color = create_trgb(3, 5, i * 2, i * 32);
+	my_mlx_pixel_put(img, x, y, color * i);
 }
 
 void	draw_julia(t_data *img, char **av)
@@ -80,13 +80,13 @@ int	deal_key(int key, t_data *img)
 	if (key == 53)
 		exit(0);
 	if (key == 123)
-		img->offset_x -= 0.1 / img->zoom;
+		img->offset_x -= 0.1 * img->zoom;
 	if (key == 124)
-		img->offset_x += 0.1 / img->zoom;
+		img->offset_x += 0.1 * img->zoom;
 	if (key == 125)
-		img->offset_y += 0.1 / img->zoom;
+		img->offset_y += 0.1 * img->zoom;
 	if (key == 126)
-		img->offset_y -= 0.1 / img->zoom;
+		img->offset_y -= 0.1 * img->zoom;
 	draw_julia(img, img->av);
 	mlx_clear_window(img->mlx, img->win);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
@@ -96,6 +96,8 @@ int	deal_key(int key, t_data *img)
 void	ft_julia(t_data *img, char **av)
 {
 	img->mlx = mlx_init();
+	if (!img->mlx)
+		free_all(img);
 	img->win = mlx_new_window(img->mlx, WIDTH, HEIGHT, "Julia");
 	img->img = mlx_new_image(img->mlx, WIDTH, HEIGHT);
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->len, &img->end);
@@ -104,7 +106,7 @@ void	ft_julia(t_data *img, char **av)
 	img->offset_y = 0;
 	img->av = av;
 	draw_julia(img, av);
-	mlx_hook(img->win, 4, 1L << 0, mouse_hook, img);
+	mlx_hook(img->win, 4, 0, mouse_hook, img);
 	mlx_hook(img->win, 2, 0, deal_key, img);
 	mlx_hook(img->win, 17, 0, close_program, img);
 	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);

@@ -2,7 +2,7 @@ NAME = fractol
 
 CFLAGS = -Wall -Wextra -Werror 
 
-SRC = general.c mandelbrot.c julia.c fract-ol.c ft_utils.c burning_ship.c
+SRC = general.c mandelbrot.c julia.c fractol.c ft_utils.c burning_ship.c
 
 OBJ = $(SRC:.c=.o)
 
