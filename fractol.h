@@ -6,7 +6,7 @@
 /*   By: ysaber <ysaber@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:46:20 by ysaber            #+#    #+#             */
-/*   Updated: 2024/01/07 11:42:54 by ysaber           ###   ########.fr       */
+/*   Updated: 2024/01/11 14:06:41 by ysaber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,21 @@
 
 # include <math.h>
 # include <mlx.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdbool.h>
 
 # define WIDTH 1000
 # define HEIGHT 900
 # define MAX_ITER 100
+
+typedef struct s_color
+{
+	int		r;
+	int		g;
+	int		b;
+}			t_color;
 
 typedef struct s_data
 {
@@ -37,6 +44,7 @@ typedef struct s_data
 	double	zoom;
 	double	offset_x;
 	double	offset_y;
+	t_color	color;
 }			t_data;
 
 typedef struct s_complexe
@@ -80,7 +88,7 @@ double		ft_atod(char *str);
 void		ft_putstr(char *str);
 double		ft_abs(double x);
 int			ft_strcmp(const char *s1, const char *s2);
-void 		free_all(t_data *img);
-int 		check_arg(const char *str);
+void		free_all(t_data *img);
+int			check_arg(const char *str);
 
 #endif

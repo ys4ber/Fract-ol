@@ -6,7 +6,7 @@
 /*   By: ysaber <ysaber@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:46:15 by ysaber            #+#    #+#             */
-/*   Updated: 2024/01/07 12:04:17 by ysaber           ###   ########.fr       */
+/*   Updated: 2024/01/11 14:35:41 by ysaber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ int	main(int ac, char **av)
 
 	if (ac == 2 && ft_strcmp(av[1], "mandelbrot") == 0)
 		ft_mandelbrot(&img);
-	if (ac == 4 && ft_strcmp(av[1], "julia") == 0 && ft_atod(av[2]) != 0
-		&& ft_atod(av[3]) != 0)
+	if (ac == 4 && ft_strcmp(av[1], "julia") == 0)
 	{
 		if (check_arg(av[2]) == 0 || check_arg(av[3]) == 0)
 		{

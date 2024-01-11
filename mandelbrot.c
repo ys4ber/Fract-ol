@@ -6,7 +6,7 @@
 /*   By: ysaber <ysaber@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:46:10 by ysaber            #+#    #+#             */
-/*   Updated: 2024/01/06 17:58:14 by ysaber           ###   ########.fr       */
+/*   Updated: 2024/01/11 15:01:38 by ysaber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	mandelbrot(t_data *img, int x, int y)
 
 	i = 0;
 	c.re = (x - WIDTH / 2.0) * 4.0 / WIDTH * img->zoom + img->offset_x;
-	c.im = (y - HEIGHT / 2.0) * 4.0 / WIDTH * img->zoom + img->offset_y;
+	c.im = (y - HEIGHT / 2.0) * 4.0 / HEIGHT * img->zoom + img->offset_y;
 	z.re = 0;
 	z.im = 0;
 	while (z.re * z.re + z.im * z.im < 4 && i < MAX_ITER)
@@ -34,9 +34,10 @@ void	mandelbrot(t_data *img, int x, int y)
 		i++;
 	}
 	if (i < MAX_ITER)
-		color = create_trgb(3, 55, 1, 21);
+		color = img->color.r * i % 255 << 16 | img->color.g * i
+			% 255 << 8 | img->color.b * i % 255;
 	else
-		color = create_trgb(0, 0, 0, 0);
+		color = 0;
 	my_mlx_pixel_put(img, x, y, color * i);
 }
 
@@ -62,17 +63,12 @@ void	draw_mandelbrot(t_data *img)
 
 int	mouse_hook_m(int button, int x, int y, t_data *img)
 {
+	x = 0;
+	y = 0;
 	if (button == 4)
 		img->zoom *= 1.1;
 	if (button == 5)
 		img->zoom /= 1.1;
-	if (button == 1)
-	{
-		img->offset_x = (x - WIDTH / 2.0) * 4.0 / WIDTH * img->zoom
-			+ img->offset_x;
-		img->offset_y = (y - HEIGHT / 2.0) * 4.0 / WIDTH * img->zoom
-			+ img->offset_y;
-	}
 	mlx_clear_window(img->mlx, img->win);
 	draw_mandelbrot(img);
 	return (0);
@@ -82,8 +78,16 @@ int	deal_key_m(int key, t_data *img)
 {
 	if (key == 53)
 	{
+		mlx_destroy_image(img->mlx, img->img);
+		mlx_destroy_window(img->mlx, img->win);
 		exit(0);
 	}
+	if (key == 15)
+		img->color.r += 1;
+	if (key == 5)
+		img->color.g += 1;
+	if (key == 11)
+		img->color.b += 1;
 	if (key == 123)
 		img->offset_x -= 0.1 * img->zoom;
 	if (key == 124)
@@ -108,6 +112,9 @@ void	ft_mandelbrot(t_data *img)
 	img->zoom = 1;
 	img->offset_x = 0;
 	img->offset_y = 0;
+	img->color.r = 1;
+	img->color.g = 9;
+	img->color.b = 5;
 	mlx_hook(img->win, 2, 0, deal_key_m, img);
 	mlx_hook(img->win, 4, 0, mouse_hook_m, img);
 	mlx_hook(img->win, 17, 0, close_program, img);

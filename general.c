@@ -6,7 +6,7 @@
 /*   By: ysaber <ysaber@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 20:46:28 by ysaber            #+#    #+#             */
-/*   Updated: 2024/01/07 11:32:54 by ysaber           ###   ########.fr       */
+/*   Updated: 2024/01/11 13:59:35 by ysaber           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,12 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
-
 int	close_program(t_data *img)
 {
 	mlx_destroy_image(img->mlx, img->img);
 	mlx_destroy_window(img->mlx, img->win);
 	exit(0);
+	return (0);
 }
 
 static double	help_atod(char *str, double res, int *dec, double *fr)
